@@ -23,22 +23,36 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/lib/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 function SvgStage({
   svg,
   alt,
-  className
+  className,
+  svgClassName
 }: {
   svg: string;
   alt: string;
   className?: string;
+  svgClassName?: string;
 }) {
   return (
     <div
+      role="img"
       aria-label={alt}
-      className={`relative overflow-hidden rounded-[1.25rem] border border-border/70 bg-white ${className ?? ""}`}
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
+      className={cn(
+        "relative overflow-hidden rounded-[1.25rem] border border-border/70 bg-white",
+        className
+      )}
+    >
+      <div
+        className={cn(
+          "relative z-10 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full",
+          svgClassName
+        )}
+        dangerouslySetInnerHTML={{ __html: svg }}
+      />
+    </div>
   );
 }
 
@@ -63,7 +77,7 @@ export function DiagramBlock({ content }: { content: DiagramContent }) {
           <SvgStage
             svg={content.svg_content}
             alt={content.alt_text}
-            className="[&_svg]:h-auto [&_svg]:w-full"
+            svgClassName="[&_svg]:h-auto [&_svg]:w-full"
           />
           {content.callouts?.map((callout) => (
             <Popover key={callout.id}>
@@ -90,17 +104,23 @@ export function DiagramBlock({ content }: { content: DiagramContent }) {
               <Expand className="h-4 w-4" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="space-y-5">
-            <DialogHeader>
-              <DialogTitle>Diagram detail</DialogTitle>
-              <DialogDescription>{content.alt_text}</DialogDescription>
-            </DialogHeader>
-            <SvgStage
-              svg={content.svg_content}
-              alt={content.alt_text}
-              className="glass-panel p-4 [&_svg]:h-auto [&_svg]:w-full"
-            />
-            <p className="text-sm leading-6 text-muted-foreground">{content.caption}</p>
+          <DialogContent
+            surface="solid"
+            className="max-h-[min(88vh,56rem)] overflow-y-auto"
+          >
+            <div className="relative z-10 space-y-5">
+              <DialogHeader>
+                <DialogTitle>Diagram detail</DialogTitle>
+                <DialogDescription>{content.alt_text}</DialogDescription>
+              </DialogHeader>
+              <SvgStage
+                svg={content.svg_content}
+                alt={content.alt_text}
+                className="border border-border/70 bg-white p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)]"
+                svgClassName="[&_svg]:h-auto [&_svg]:w-full"
+              />
+              <p className="text-sm leading-6 text-muted-foreground">{content.caption}</p>
+            </div>
           </DialogContent>
         </Dialog>
       </CardContent>

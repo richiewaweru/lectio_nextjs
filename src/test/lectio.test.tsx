@@ -1,9 +1,10 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 
 import { calculusExtendedSection, calculusSection } from "@/lib/dummy-content";
 import { DefinitionCard } from "@/lib/components/lectio/DefinitionCard";
 import { DefinitionFamily } from "@/lib/components/lectio/DefinitionFamily";
+import { DiagramBlock } from "@/lib/components/lectio/DiagramBlock";
 import { DiagramCompare } from "@/lib/components/lectio/DiagramCompare";
 import { DiagramSeries } from "@/lib/components/lectio/DiagramSeries";
 import { HookHero } from "@/lib/components/lectio/HookHero";
@@ -74,6 +75,28 @@ describe("DiagramCompare", () => {
     expect(
       screen.getByText(/The interval collapses until one local direction takes over/i)
     ).toBeInTheDocument();
+  });
+});
+
+describe("DiagramBlock", () => {
+  it("opens the inspect dialog with the enlarged svg rendered inside the modal", () => {
+    render(<DiagramBlock content={calculusExtendedSection.diagram!} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /inspect/i }));
+
+    const dialog = screen.getByRole("dialog");
+
+    expect(within(dialog).getByText(/Diagram detail/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(calculusExtendedSection.diagram!.caption)).toBeInTheDocument();
+    expect(dialog.className).not.toContain("glass-panel");
+    expect(dialog.className).toContain("bg-white/98");
+
+    const enlargedStage = within(dialog).getByRole("img", {
+      name: calculusExtendedSection.diagram!.alt_text
+    });
+
+    expect(enlargedStage.querySelector("svg")).toBeInTheDocument();
+    expect(enlargedStage.className).toContain("bg-white");
   });
 });
 

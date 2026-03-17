@@ -107,7 +107,8 @@ export default function ShowcasePage() {
           return (
             <section
               key={component.name}
-              className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]"
+              id={component.id}
+              className="grid scroll-mt-8 gap-6 lg:grid-cols-[0.9fr_1.1fr]"
             >
               <Card className="border-primary/10 bg-primary text-primary-foreground">
                 <CardHeader className="space-y-4">

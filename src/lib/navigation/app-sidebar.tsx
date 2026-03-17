@@ -40,15 +40,16 @@ export function AppSidebar({ frameworkLabel }: AppSidebarProps) {
               <ul className="mt-3 space-y-1.5">
                 {navigation.components.map((item) => (
                   <li key={item.href}>
-                    <Link
+                    <a
                       href={item.href}
+                      data-navigation-kind={item.navigationKind}
                       className="block rounded-xl px-3 py-2 text-foreground/80 transition-colors hover:bg-primary/5 hover:text-primary"
                     >
                       <span className="font-medium">{item.label}</span>
                       <span className="mt-1 block text-xs text-muted-foreground">
                         {item.meta}
                       </span>
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -61,6 +62,7 @@ export function AppSidebar({ frameworkLabel }: AppSidebarProps) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      data-navigation-kind={item.navigationKind}
                       className="block rounded-xl px-3 py-2 text-foreground/80 transition-colors hover:bg-primary/5 hover:text-primary"
                     >
                       <span className="font-medium">{item.label}</span>

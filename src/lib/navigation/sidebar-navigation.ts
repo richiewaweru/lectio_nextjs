@@ -5,6 +5,7 @@ export interface SidebarNavigationItem {
   href: string;
   label: string;
   meta: string;
+  navigationKind: "hash" | "route";
 }
 
 export interface SidebarNavigationData {
@@ -17,18 +18,21 @@ export function getSidebarNavigation(): SidebarNavigationData {
     components: getStableComponents().map((component) => ({
       href: `/showcase#${component.id}`,
       label: component.name,
-      meta: `Group ${component.group} - ${component.cognitiveJob}`
+      meta: `Group ${component.group} - ${component.cognitiveJob}`,
+      navigationKind: "hash" as const
     })),
     templates: [
       {
         href: "/templates",
         label: "Template gallery",
-        meta: `${templateRegistry.length} starter templates`
+        meta: `${templateRegistry.length} starter templates`,
+        navigationKind: "route" as const
       },
       ...templateRegistry.map(({ contract }) => ({
         href: `/templates/${contract.id}`,
         label: contract.name,
-        meta: contract.family
+        meta: contract.family,
+        navigationKind: "route" as const
       }))
     ]
   };
