@@ -68,6 +68,29 @@
     backdrop-filter: blur(18px);
   }
 
+  .glass-panel {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.68);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 240, 0.82)),
+      rgba(255, 255, 255, 0.86);
+    box-shadow:
+      0 24px 70px rgba(27, 38, 59, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(22px);
+  }
+
+  .glass-panel::before {
+    content: "";
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), transparent 38%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 55%);
+  }
+
   .lesson-shell::before {
     background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
       linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);

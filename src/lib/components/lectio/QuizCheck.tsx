@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/lib/components/ui/radio-group";
 
 export function QuizCheck({ content }: { content: QuizContent }) {
   const [selected, setSelected] = useState<string>("");
-  const [submitted, setSubmitted] = useState(false);
+  const submitted = selected !== "";
   const selectedOption = content.options[Number(selected)];
   const isCorrect = Boolean(selectedOption?.correct);
 
@@ -28,11 +28,21 @@ export function QuizCheck({ content }: { content: QuizContent }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-base leading-7 text-foreground/84">{content.question}</p>
-        <RadioGroup value={selected} onValueChange={setSelected}>
+        <RadioGroup
+          value={selected}
+          onValueChange={setSelected}
+          aria-label="Answer choices"
+        >
           {content.options.map((option, index) => (
             <label
               key={option.text}
-              className="flex cursor-pointer items-start gap-3 rounded-[1rem] border border-border/70 bg-white/80 p-4"
+              className={`flex cursor-pointer items-start gap-3 rounded-[1rem] border bg-white/80 p-4 transition-colors ${
+                submitted && option.correct
+                  ? "border-emerald-300 bg-emerald-50/75"
+                  : submitted && selected === String(index)
+                    ? "border-amber-300 bg-amber-50/75"
+                    : "border-border/70"
+              }`}
             >
               <RadioGroupItem value={String(index)} className="mt-1" />
               <span className="space-y-2">
@@ -48,19 +58,16 @@ export function QuizCheck({ content }: { content: QuizContent }) {
             </label>
           ))}
         </RadioGroup>
-        <div className="flex flex-wrap gap-3">
-          <Button onClick={() => setSubmitted(true)} disabled={!selected}>
-            Check answer
-          </Button>
-          {submitted ? (
-            <Button variant="outline" onClick={() => {
+        {submitted ? (
+          <Button
+            variant="outline"
+            onClick={() => {
               setSelected("");
-              setSubmitted(false);
-            }}>
-              Reset
-            </Button>
-          ) : null}
-        </div>
+            }}
+          >
+            Try again
+          </Button>
+        ) : null}
         {submitted && selectedOption ? (
           <div
             className={`rounded-[1rem] p-4 text-sm leading-6 ${

@@ -262,6 +262,8 @@ export interface DiagramCompareContent {
   after_svg: string;
   before_label: string;
   after_label: string;
+  before_details?: string[];
+  after_details?: string[];
   caption: string;
   alt_text: string;
 }

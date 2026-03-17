@@ -343,7 +343,8 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     shadcnPrimitive: "Card + Slider",
     capacity: {
       captionMaxWords: 60,
-      labelsMaxWords: 6
+      labelsMaxWords: 6,
+      detailListsOptional: "before_details, after_details"
     },
     printFallback: "Before and after diagrams side by side",
     status: "stable"
@@ -356,7 +357,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     cognitiveJob: "Track staged change",
     subjects: ["universal"],
     behaviourModes: ["static"],
-    shadcnPrimitive: "Card + Button",
+    shadcnPrimitive: "Card + Button + Progress",
     capacity: {
       diagramsMax: 4,
       titleMaxWords: 10

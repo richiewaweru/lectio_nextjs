@@ -31,8 +31,11 @@ export function DefinitionCard({ content }: { content: DefinitionContent }) {
             {showFormal ? content.formal : content.plain}
           </p>
           {content.symbol ? (
-            <div className="rounded-[1.25rem] border border-fuchsia-200 bg-white/85 px-4 py-3 text-center text-3xl font-semibold text-fuchsia-700">
-              {content.symbol}
+            <div className="rounded-[1.25rem] border border-fuchsia-200 bg-white/88 px-4 py-3 text-center text-3xl font-semibold text-fuchsia-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+              <MathFormula
+                formula={content.symbol}
+                className="text-3xl text-fuchsia-700"
+              />
             </div>
           ) : null}
         </div>
@@ -59,7 +62,7 @@ export function DefinitionCard({ content }: { content: DefinitionContent }) {
             </p>
             <MathFormula
               formula={content.notation}
-              className="text-base text-primary"
+              className="text-lg text-primary"
             />
           </div>
         ) : null}

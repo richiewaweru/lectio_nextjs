@@ -90,7 +90,7 @@ export function DiagramBlock({ content }: { content: DiagramContent }) {
               <Expand className="h-4 w-4" />
             </Button>
           </DialogTrigger>
-          <DialogContent className="space-y-4">
+          <DialogContent className="space-y-5">
             <DialogHeader>
               <DialogTitle>Diagram detail</DialogTitle>
               <DialogDescription>{content.alt_text}</DialogDescription>
@@ -98,7 +98,7 @@ export function DiagramBlock({ content }: { content: DiagramContent }) {
             <SvgStage
               svg={content.svg_content}
               alt={content.alt_text}
-              className="p-4 [&_svg]:h-auto [&_svg]:w-full"
+              className="glass-panel p-4 [&_svg]:h-auto [&_svg]:w-full"
             />
             <p className="text-sm leading-6 text-muted-foreground">{content.caption}</p>
           </DialogContent>

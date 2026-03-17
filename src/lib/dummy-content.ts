@@ -71,8 +71,8 @@ export const calculusSection: SectionContent = {
     body: "Algebra can compare two moments, but it cannot answer what is happening at one frozen instant. That missing question is what pushed calculus into existence.",
     anchor: "the gap between average speed and instantaneous speed",
     image: {
-      url: "/images/calculus-hook.svg",
-      alt: "A stylized curve and tangent line illustrating calculus as a bridge from motion to exact change."
+      url: "/images/derivative-hook-visual.svg",
+      alt: "A curve, secant line, and tangent line showing how calculus sharpens average change into local change."
     }
   },
   explanation: {
@@ -272,7 +272,7 @@ export const calculusExtendedSection: SectionContent = {
       "When the average slope stops changing"
     ],
     image: {
-      url: "/images/calculus-hook.svg",
+      url: "/images/derivative-hook-visual.svg",
       alt: "A curve with a tangent line, suggesting local slope."
     }
   },
@@ -493,6 +493,16 @@ export const calculusExtendedSection: SectionContent = {
     after_svg: secantToTangentAfterSvg,
     before_label: "Secant",
     after_label: "Tangent",
+    before_details: [
+      "Two separated points define one average slope across an interval.",
+      "The full before state still measures change over distance, not at one exact point.",
+      "The second point controls how wide the interval remains."
+    ],
+    after_details: [
+      "The interval collapses until one local direction takes over.",
+      "The line now matches the graph at the highlighted point.",
+      "The derivative is read from this limiting tangent slope."
+    ],
     caption: "The comparison slider shows how the secant line becomes a tangent line as the second point closes in.",
     alt_text: "A before-and-after comparison between a secant line and a tangent line on the same curve."
   },

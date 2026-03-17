@@ -3,6 +3,10 @@ import { fireEvent, render, screen } from "@testing-library/react";
 
 import { calculusExtendedSection, calculusSection } from "@/lib/dummy-content";
 import { DefinitionCard } from "@/lib/components/lectio/DefinitionCard";
+import { DefinitionFamily } from "@/lib/components/lectio/DefinitionFamily";
+import { DiagramCompare } from "@/lib/components/lectio/DiagramCompare";
+import { DiagramSeries } from "@/lib/components/lectio/DiagramSeries";
+import { HookHero } from "@/lib/components/lectio/HookHero";
 import { PracticeStack } from "@/lib/components/lectio/PracticeStack";
 import { QuizCheck } from "@/lib/components/lectio/QuizCheck";
 import { WorkedExampleCard } from "@/lib/components/lectio/WorkedExampleCard";
@@ -27,6 +31,62 @@ describe("DefinitionCard", () => {
     expect(
       screen.getByText(/The limit of the average rate of change/i)
     ).toBeInTheDocument();
+  });
+});
+
+describe("DefinitionFamily", () => {
+  it("opens the first related definition by default", () => {
+    render(<DefinitionFamily content={calculusExtendedSection.definition_family!} />);
+
+    expect(screen.getByText(/The secant slope between two points/i)).toBeInTheDocument();
+  });
+});
+
+describe("HookHero", () => {
+  it("renders the attached demo visual with the non-cropping image treatment", () => {
+    render(<HookHero content={calculusExtendedSection.hook} />);
+
+    const visual = screen.getByRole("img", {
+      name: /a curve with a tangent line, suggesting local slope/i
+    });
+
+    expect(visual).toBeInTheDocument();
+    expect(visual).toHaveClass("object-contain");
+  });
+});
+
+describe("DiagramCompare", () => {
+  it("starts in the full before state and progressively reveals after details", () => {
+    render(<DiagramCompare content={calculusExtendedSection.diagram_compare!} />);
+
+    expect(
+      screen.getByText(/Two separated points define one average slope across an interval/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/The interval collapses until one local direction takes over/i)
+    ).not.toBeInTheDocument();
+
+    fireEvent.keyDown(
+      screen.getByRole("slider"),
+      { key: "ArrowRight" }
+    );
+
+    expect(
+      screen.getByText(/The interval collapses until one local direction takes over/i)
+    ).toBeInTheDocument();
+  });
+});
+
+describe("DiagramSeries", () => {
+  it("keeps the progress bar, buttons, and active caption in sync", () => {
+    render(<DiagramSeries content={calculusExtendedSection.diagram_series!} />);
+
+    expect(screen.getByText(/Begin with the curve alone/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /next/i }));
+
+    expect(screen.getByText(/Add a secant line between nearby points/i)).toBeInTheDocument();
+    expect(screen.getByText(/Step 2 of 3/i)).toBeInTheDocument();
   });
 });
 
@@ -108,17 +168,19 @@ describe("WorkedExampleCard", () => {
 });
 
 describe("QuizCheck", () => {
-  it("shows correctness feedback and option explanations", () => {
+  it("shows correctness feedback and option explanations immediately on selection", () => {
     render(<QuizCheck content={calculusExtendedSection.quiz!} />);
 
     fireEvent.click(screen.getByLabelText(/The limiting slope near one point/i));
-    fireEvent.click(screen.getByRole("button", { name: /check answer/i }));
 
     expect(
       screen.getByText(/Yes. The derivative is the limiting local slope/i)
     ).toBeInTheDocument();
     expect(
       screen.getByText(/This captures the tangent behavior at x = a/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /try again/i })
     ).toBeInTheDocument();
   });
 });
