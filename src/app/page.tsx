@@ -61,8 +61,8 @@ export default function HomePage() {
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link href="/templates/showcase">
-                  Open template showcase
+                <Link href="/templates">
+                  Open template gallery
                 </Link>
               </Button>
             </div>
@@ -73,7 +73,7 @@ export default function HomePage() {
                 Guided Concept Path
               </CardTitle>
               <CardDescription className="text-primary-foreground/75">
-                Guided baseline plus the new extended visualization path
+                Ten registry-driven teaching strategies across six template families
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-sm leading-6 text-primary-foreground/88">
@@ -94,7 +94,7 @@ export default function HomePage() {
                 <Layers3 className="mt-1 h-4 w-4" />
                 <p>
                   Templates assemble reusable educational interactions into
-                  coherent lessons and now support a richer full-surface demo.
+                  coherent lessons and now drive a full family-based gallery.
                 </p>
               </div>
             </CardContent>

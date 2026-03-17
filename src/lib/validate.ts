@@ -1,9 +1,11 @@
 import type {
+  ComparisonGridContent,
   DiagramCompareContent,
   DiagramContent,
   DiagramSeriesContent,
   PitfallContent,
   SectionContent,
+  TimelineContent,
   WorkedExampleContent
 } from "@/lib/types";
 import {
@@ -98,6 +100,132 @@ function validateDiagramSeries(
       );
     }
   });
+}
+
+function validateComparisonGrid(
+  content: ComparisonGridContent,
+  warnings: string[]
+) {
+  if (countWords(content.title) > 10) {
+    warnings.push(warn("ComparisonGrid", "title exceeds 10 words."));
+  }
+
+  if (content.intro && countWords(content.intro) > 60) {
+    warnings.push(warn("ComparisonGrid", "intro exceeds 60 words."));
+  }
+
+  if (content.columns.length < 2 || content.columns.length > 4) {
+    warnings.push(
+      warn(
+        "ComparisonGrid",
+        `has ${content.columns.length} columns; expected between 2 and 4.`
+      )
+    );
+  }
+
+  content.columns.forEach((column, index) => {
+    if (countWords(column.title) > 6) {
+      warnings.push(
+        warn("ComparisonGrid", `column ${index + 1} title exceeds 6 words.`)
+      );
+    }
+
+    if (countWords(column.summary) > 24) {
+      warnings.push(
+        warn("ComparisonGrid", `column ${index + 1} summary exceeds 24 words.`)
+      );
+    }
+
+    if (column.detail && countWords(column.detail) > 50) {
+      warnings.push(
+        warn("ComparisonGrid", `column ${index + 1} detail exceeds 50 words.`)
+      );
+    }
+  });
+
+  if (content.rows.length > 6) {
+    warnings.push(warn("ComparisonGrid", `has ${content.rows.length} rows; max is 6.`));
+  }
+
+  content.rows.forEach((row, index) => {
+    if (countWords(row.criterion) > 8) {
+      warnings.push(
+        warn("ComparisonGrid", `row ${index + 1} criterion exceeds 8 words.`)
+      );
+    }
+
+    if (row.values.length !== content.columns.length) {
+      warnings.push(
+        warn(
+          "ComparisonGrid",
+          `row ${index + 1} has ${row.values.length} values; expected ${content.columns.length}.`
+        )
+      );
+    }
+
+    row.values.forEach((value, valueIndex) => {
+      if (countWords(value) > 20) {
+        warnings.push(
+          warn(
+            "ComparisonGrid",
+            `row ${index + 1} value ${valueIndex + 1} exceeds 20 words.`
+          )
+        );
+      }
+    });
+
+    if (row.takeaway && countWords(row.takeaway) > 24) {
+      warnings.push(
+        warn("ComparisonGrid", `row ${index + 1} takeaway exceeds 24 words.`)
+      );
+    }
+  });
+}
+
+function validateTimeline(content: TimelineContent, warnings: string[]) {
+  if (countWords(content.title) > 10) {
+    warnings.push(warn("TimelineBlock", "title exceeds 10 words."));
+  }
+
+  if (content.intro && countWords(content.intro) > 60) {
+    warnings.push(warn("TimelineBlock", "intro exceeds 60 words."));
+  }
+
+  if (content.events.length < 3) {
+    warnings.push(warn("TimelineBlock", "requires at least 3 events."));
+  }
+
+  if (content.events.length > 8) {
+    warnings.push(warn("TimelineBlock", `has ${content.events.length} events; max is 8.`));
+  }
+
+  content.events.forEach((event, index) => {
+    if (countWords(event.title) > 8) {
+      warnings.push(warn("TimelineBlock", `event ${index + 1} title exceeds 8 words.`));
+    }
+
+    if (countWords(event.summary) > 50) {
+      warnings.push(
+        warn("TimelineBlock", `event ${index + 1} summary exceeds 50 words.`)
+      );
+    }
+
+    if (event.impact && countWords(event.impact) > 24) {
+      warnings.push(
+        warn("TimelineBlock", `event ${index + 1} impact exceeds 24 words.`)
+      );
+    }
+
+    if (event.tags && event.tags.length > 3) {
+      warnings.push(
+        warn("TimelineBlock", `event ${index + 1} has ${event.tags.length} tags; max is 3.`)
+      );
+    }
+  });
+
+  if (content.closing_takeaway && countWords(content.closing_takeaway) > 40) {
+    warnings.push(warn("TimelineBlock", "closing_takeaway exceeds 40 words."));
+  }
 }
 
 function validateWorkedExample(
@@ -324,6 +452,10 @@ export function validateSection(section: SectionContent) {
         warnings.push(warn("InsightStrip", `cell ${index + 1} note exceeds 20 words.`));
       }
     });
+  }
+
+  if (section.comparison_grid) {
+    validateComparisonGrid(section.comparison_grid, warnings);
   }
 
   getWorkedExamples(section).forEach((example, index) => {
@@ -569,6 +701,10 @@ export function validateSection(section: SectionContent) {
 
   if (section.diagram_series) {
     validateDiagramSeries(section.diagram_series, warnings);
+  }
+
+  if (section.timeline) {
+    validateTimeline(section.timeline, warnings);
   }
 
   if (section.simulation) {

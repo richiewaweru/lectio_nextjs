@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { calculusExtendedSection } from "@/lib/dummy-content";
 import {
+  ComparisonGrid,
   DefinitionCard,
   DefinitionFamily,
   DiagramBlock,
@@ -21,6 +22,7 @@ import {
   ReflectionPrompt,
   SectionHeader,
   SimulationBlock,
+  TimelineBlock,
   WhatNextBridge,
   WorkedExampleCard
 } from "@/lib/components/lectio";
@@ -33,6 +35,8 @@ import {
   CardHeader,
   CardTitle
 } from "@/lib/components/ui/card";
+import { compareAndApplyPreview } from "@/lib/templates/compare-and-apply/preview";
+import { timelineNarrativePreview } from "@/lib/templates/timeline-narrative/preview";
 
 const glossaryInlineTerm = calculusExtendedSection.glossary?.terms[0];
 
@@ -57,6 +61,9 @@ const showcaseRenderers: Record<string, ReactNode> = {
     </p>
   ) : null,
   InsightStrip: <InsightStrip content={calculusExtendedSection.insight_strip!} />,
+  ComparisonGrid: (
+    <ComparisonGrid content={compareAndApplyPreview.section.comparison_grid!} />
+  ),
   WorkedExampleCard: <WorkedExampleCard content={calculusExtendedSection.worked_example!} />,
   ProcessSteps: <ProcessSteps content={calculusExtendedSection.process!} />,
   PracticeStack: <PracticeStack content={calculusExtendedSection.practice} />,
@@ -66,6 +73,9 @@ const showcaseRenderers: Record<string, ReactNode> = {
   DiagramBlock: <DiagramBlock content={calculusExtendedSection.diagram!} />,
   DiagramCompare: <DiagramCompare content={calculusExtendedSection.diagram_compare!} />,
   DiagramSeries: <DiagramSeries content={calculusExtendedSection.diagram_series!} />,
+  TimelineBlock: (
+    <TimelineBlock content={timelineNarrativePreview.section.timeline!} />
+  ),
   SimulationBlock: <SimulationBlock content={calculusExtendedSection.simulation!} />
 };
 

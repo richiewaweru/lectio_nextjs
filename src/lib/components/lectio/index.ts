@@ -1,5 +1,6 @@
 export { DefinitionFamily } from "@/lib/components/lectio/DefinitionFamily";
 export { DefinitionCard } from "@/lib/components/lectio/DefinitionCard";
+export { ComparisonGrid } from "@/lib/components/lectio/ComparisonGrid";
 export { DiagramBlock } from "@/lib/components/lectio/DiagramBlock";
 export { DiagramCompare } from "@/lib/components/lectio/DiagramCompare";
 export { DiagramSeries } from "@/lib/components/lectio/DiagramSeries";
@@ -17,5 +18,6 @@ export { QuizCheck } from "@/lib/components/lectio/QuizCheck";
 export { ReflectionPrompt } from "@/lib/components/lectio/ReflectionPrompt";
 export { SectionHeader } from "@/lib/components/lectio/SectionHeader";
 export { SimulationBlock } from "@/lib/components/lectio/SimulationBlock";
+export { TimelineBlock } from "@/lib/components/lectio/TimelineBlock";
 export { WhatNextBridge } from "@/lib/components/lectio/WhatNextBridge";
 export { WorkedExampleCard } from "@/lib/components/lectio/WorkedExampleCard";

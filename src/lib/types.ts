@@ -12,7 +12,9 @@ export type BehaviourMode =
   | "drawer"
   | "inline-strip"
   | "progressive-hints"
-  | "compare";
+  | "compare"
+  | "flat-list"
+  | "timeline-scrubber";
 
 export type ComponentGroup = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type ComponentStatus = "stable" | "beta" | "planned";
@@ -133,6 +135,29 @@ export interface InsightCell {
 
 export interface InsightStripContent {
   cells: InsightCell[];
+}
+
+export interface ComparisonColumn {
+  id: string;
+  title: string;
+  summary: string;
+  badge?: string;
+  detail?: string;
+  highlight?: boolean;
+}
+
+export interface ComparisonRow {
+  criterion: string;
+  values: string[];
+  takeaway?: string;
+}
+
+export interface ComparisonGridContent {
+  title: string;
+  intro?: string;
+  columns: ComparisonColumn[];
+  rows: ComparisonRow[];
+  apply_prompt?: string;
 }
 
 export interface WorkedStep {
@@ -279,6 +304,23 @@ export interface DiagramSeriesContent {
   diagrams: DiagramSeriesItem[];
 }
 
+export interface TimelineEvent {
+  id: string;
+  era?: string;
+  year: string;
+  title: string;
+  summary: string;
+  impact?: string;
+  tags?: string[];
+}
+
+export interface TimelineContent {
+  title: string;
+  intro?: string;
+  events: TimelineEvent[];
+  closing_takeaway?: string;
+}
+
 export type SimulationType =
   | "graph_slider"
   | "probability_tree"
@@ -339,6 +381,8 @@ export interface SectionContent {
   diagram?: DiagramContent;
   diagram_compare?: DiagramCompareContent;
   diagram_series?: DiagramSeriesContent;
+  comparison_grid?: ComparisonGridContent;
+  timeline?: TimelineContent;
   insight_strip?: InsightStripContent;
   pitfall?: PitfallContent;
   pitfalls?: PitfallContent[];

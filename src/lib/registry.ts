@@ -183,7 +183,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     purpose: "Defines a term in place without forcing a context switch.",
     cognitiveJob: "Recover meaning inline",
     subjects: ["universal"],
-    behaviourModes: ["inline-strip"],
+    behaviourModes: ["hint-toggle"],
     shadcnPrimitive: "Popover",
     capacity: {
       definitionMaxWords: 30
@@ -206,6 +206,25 @@ export const componentRegistry: Record<string, ComponentMeta> = {
       noteMaxWords: 20
     },
     printFallback: "Three-column summary strip",
+    status: "stable"
+  },
+  ComparisonGrid: {
+    id: "comparison-grid",
+    name: "ComparisonGrid",
+    group: 2,
+    purpose: "Holds multiple concepts in view so distinctions become structural.",
+    cognitiveJob: "Compare and classify in parallel",
+    subjects: ["universal"],
+    behaviourModes: ["static"],
+    shadcnPrimitive: "Card + CSS grid",
+    capacity: {
+      columnsMin: 2,
+      columnsMax: 4,
+      rowsMax: 6,
+      criterionMaxWords: 8,
+      valueMaxWords: 20
+    },
+    printFallback: "Static comparison table",
     status: "stable"
   },
   WorkedExampleCard: {
@@ -235,7 +254,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     purpose: "Shows a reusable procedure learners can execute themselves.",
     cognitiveJob: "Operationalize a process",
     subjects: ["universal"],
-    behaviourModes: ["static"],
+    behaviourModes: ["static", "step-reveal"],
     shadcnPrimitive: "Card",
     capacity: {
       stepsMax: 8,
@@ -251,7 +270,7 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     purpose: "Provides calibrated practice with progressive support.",
     cognitiveJob: "Apply understanding",
     subjects: ["universal"],
-    behaviourModes: ["accordion", "progressive-hints", "hint-toggle"],
+    behaviourModes: ["accordion", "progressive-hints", "hint-toggle", "flat-list"],
     shadcnPrimitive: "Accordion + Collapsible",
     capacity: {
       problemsMin: 1,
@@ -365,6 +384,24 @@ export const componentRegistry: Record<string, ComponentMeta> = {
     printFallback: "Stepped static figure strip",
     status: "stable"
   },
+  TimelineBlock: {
+    id: "timeline-block",
+    name: "TimelineBlock",
+    group: 6,
+    purpose: "Turns chronology into a readable instructional spine.",
+    cognitiveJob: "Follow cause and sequence over time",
+    subjects: ["history", "science", "universal"],
+    behaviourModes: ["static", "timeline-scrubber"],
+    shadcnPrimitive: "Card + button group",
+    capacity: {
+      eventsMin: 3,
+      eventsMax: 8,
+      titleMaxWords: 10,
+      summaryMaxWords: 50
+    },
+    printFallback: "Vertical event list",
+    status: "stable"
+  },
   SimulationBlock: {
     id: "simulation-block",
     name: "SimulationBlock",
@@ -385,6 +422,12 @@ export const componentRegistry: Record<string, ComponentMeta> = {
 export function getStableComponents() {
   return Object.values(componentRegistry).filter(
     (component) => component.status === "stable" || component.status === "beta"
+  );
+}
+
+export function getComponentById(componentId: string) {
+  return Object.values(componentRegistry).find(
+    (component) => component.id === componentId
   );
 }
 
