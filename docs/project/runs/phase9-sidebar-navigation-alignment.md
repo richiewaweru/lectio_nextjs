@@ -10,8 +10,9 @@
 - [x] Wrote tests for new behavior
 - [x] Ran validation (backend: ruff + pytest, frontend: check + build)
 - [x] Self-reviewed against agents/standards/review.md
-- [ ] Wrote commit message(s) following agents/standards/communication.md
-- [ ] Updated PR description with summary, validation evidence, risks
+- [x] Wrote commit message(s) following agents/standards/communication.md
+- [x] Updated handoff/runbook summary, validation evidence, risks
+- [x] Pushed the sidebar navigation change to GitHub
 - [x] Noted any follow-up work or open questions
 
 ### Validation Evidence
@@ -23,3 +24,4 @@
 ### Risks and Follow-up
 - The global desktop sidebar now derives its component and template links from a shared navigation helper so pages stay aligned with the live registries.
 - `next-env.d.ts` may be regenerated during local validation.
+- Initial feature push for this phase landed on `main` as `49b6732`.
