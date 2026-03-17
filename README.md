@@ -2,6 +2,16 @@
 
 Lectio is an educational UI component library used to render AI-generated textbook sections into clear, reusable learning experiences.
 
+## Current Status
+
+- 23 public teaching components are exported from `src/lib/components/lectio/index.ts`.
+- 10 starter templates ship through the shared template registry in `src/lib/template-registry.ts`.
+- Public routes are:
+  - `/showcase`
+  - `/templates`
+  - `/templates/[templateId]`
+- Legacy public template routes now redirect back to `/templates`.
+
 ## Stack
 
 - Next.js App Router
@@ -14,11 +24,7 @@ Lectio is an educational UI component library used to render AI-generated textbo
 
 `Content Schema -> Educational Components -> Templates -> Rendered Lesson`
 
-Each educational component represents a cognitive teaching move rather than a generic UI widget.
-
-The first implemented template is `Guided Concept Path`:
-
-`Hook -> Explain -> Define -> Example -> Practice -> What Next`
+Each educational component represents a cognitive teaching move rather than a generic UI widget. The public template system is now registry-driven rather than single-template-route driven.
 
 ## Commands
 
@@ -35,8 +41,11 @@ npm run build
 
 - `/` overview and navigation
 - `/showcase` component showcase
-- `/templates/guided-concept-path` full rendered lesson template
+- `/templates` registry-driven gallery
+- `/templates/[templateId]` registry-driven detail page
+- `/templates/showcase`, `/templates/guided-concept-path`, and `/templates/extended-concept-path` redirect to the gallery
 
 ## Notes
 
-The original Svelte workspace was used only as source documentation and reference material. This app is intentionally separated in `C:\Projects\lectio_nextjs`.
+- The template detail page uses a left-side persistent contract drawer on `md+` and a temporary mobile sheet, with desktop preference stored in `localStorage`.
+- The current implementation in `src/lib/` and `src/app/templates/` is the source of truth over older planning briefs.
