@@ -37,6 +37,11 @@ export function GlossaryRail({
                 <p className="mt-2 text-sm leading-6 text-primary-foreground/82">
                   {term.definition}
                 </p>
+                {term.pronunciation ? (
+                  <p className="mt-2 text-xs italic text-primary-foreground/62">
+                    Pronunciation: {term.pronunciation}
+                  </p>
+                ) : null}
                 {term.used_in ? (
                   <p className="mt-2 text-xs text-primary-foreground/62">
                     Used in: {term.used_in}

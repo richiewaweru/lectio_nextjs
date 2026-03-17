@@ -1,15 +1,30 @@
-import { calculusSection } from "@/lib/dummy-content";
+import type { ReactNode } from "react";
+
+import { calculusExtendedSection } from "@/lib/dummy-content";
 import {
   DefinitionCard,
+  DefinitionFamily,
+  DiagramBlock,
+  DiagramCompare,
+  DiagramSeries,
   ExplanationBlock,
+  GlossaryInline,
   GlossaryRail,
   HookHero,
+  InsightStrip,
+  InterviewAnchor,
   PitfallAlert,
   PracticeStack,
+  PrerequisiteStrip,
+  ProcessSteps,
+  QuizCheck,
+  ReflectionPrompt,
+  SectionHeader,
+  SimulationBlock,
   WhatNextBridge,
   WorkedExampleCard
 } from "@/lib/components/lectio";
-import { componentRegistry } from "@/lib/registry";
+import { getStableComponents } from "@/lib/registry";
 import { Badge } from "@/lib/components/ui/badge";
 import {
   Card,
@@ -19,42 +34,44 @@ import {
   CardTitle
 } from "@/lib/components/ui/card";
 
-const showcaseEntries = [
-  {
-    key: "HookHero",
-    render: <HookHero content={calculusSection.hook} />
-  },
-  {
-    key: "ExplanationBlock",
-    render: <ExplanationBlock content={calculusSection.explanation} />
-  },
-  {
-    key: "DefinitionCard",
-    render: <DefinitionCard content={calculusSection.definition!} />
-  },
-  {
-    key: "WorkedExampleCard",
-    render: <WorkedExampleCard content={calculusSection.worked_example!} />
-  },
-  {
-    key: "PracticeStack",
-    render: <PracticeStack content={calculusSection.practice} />
-  },
-  {
-    key: "PitfallAlert",
-    render: <PitfallAlert content={calculusSection.pitfall!} />
-  },
-  {
-    key: "GlossaryRail",
-    render: <GlossaryRail content={calculusSection.glossary!} className="h-full" />
-  },
-  {
-    key: "WhatNextBridge",
-    render: <WhatNextBridge content={calculusSection.what_next} />
-  }
-];
+const glossaryInlineTerm = calculusExtendedSection.glossary?.terms[0];
+
+const showcaseRenderers: Record<string, ReactNode> = {
+  SectionHeader: <SectionHeader content={calculusExtendedSection.header!} />,
+  HookHero: <HookHero content={calculusExtendedSection.hook} />,
+  ExplanationBlock: <ExplanationBlock content={calculusExtendedSection.explanation} />,
+  PrerequisiteStrip: <PrerequisiteStrip content={calculusExtendedSection.prerequisites!} />,
+  WhatNextBridge: <WhatNextBridge content={calculusExtendedSection.what_next} />,
+  InterviewAnchor: <InterviewAnchor content={calculusExtendedSection.interview!} />,
+  DefinitionCard: <DefinitionCard content={calculusExtendedSection.definition!} />,
+  DefinitionFamily: <DefinitionFamily content={calculusExtendedSection.definition_family!} />,
+  GlossaryRail: <GlossaryRail content={calculusExtendedSection.glossary!} className="h-full" />,
+  GlossaryInline: glossaryInlineTerm ? (
+    <p className="text-base leading-8 text-foreground/84">
+      Inline preview:{" "}
+      <GlossaryInline
+        term={glossaryInlineTerm.term}
+        definition={glossaryInlineTerm.definition}
+      />{" "}
+      keeps the definition nearby while the sentence continues.
+    </p>
+  ) : null,
+  InsightStrip: <InsightStrip content={calculusExtendedSection.insight_strip!} />,
+  WorkedExampleCard: <WorkedExampleCard content={calculusExtendedSection.worked_example!} />,
+  ProcessSteps: <ProcessSteps content={calculusExtendedSection.process!} />,
+  PracticeStack: <PracticeStack content={calculusExtendedSection.practice} />,
+  QuizCheck: <QuizCheck content={calculusExtendedSection.quiz!} />,
+  ReflectionPrompt: <ReflectionPrompt content={calculusExtendedSection.reflection!} />,
+  PitfallAlert: <PitfallAlert content={calculusExtendedSection.pitfall!} />,
+  DiagramBlock: <DiagramBlock content={calculusExtendedSection.diagram!} />,
+  DiagramCompare: <DiagramCompare content={calculusExtendedSection.diagram_compare!} />,
+  DiagramSeries: <DiagramSeries content={calculusExtendedSection.diagram_series!} />,
+  SimulationBlock: <SimulationBlock content={calculusExtendedSection.simulation!} />
+};
 
 export default function ShowcasePage() {
+  const components = getStableComponents();
+
   return (
     <main className="page-frame">
       <div className="mb-8 space-y-3">
@@ -63,50 +80,62 @@ export default function ShowcasePage() {
           Educational components as teaching moves
         </h1>
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
-          Each component is previewed with calculus content and paired with the
-          registry metadata that defines its instructional role.
+          Each preview is driven by the shared registry metadata and rendered
+          with the richer calculus lesson that exercises the complete-build
+          surface area.
         </p>
       </div>
 
       <div className="grid gap-6">
-        {showcaseEntries.map((entry) => {
-          const meta = componentRegistry[entry.key];
+        {components.map((component) => {
+          const render = showcaseRenderers[component.name];
+
+          if (!render) {
+            return null;
+          }
 
           return (
             <section
-              key={entry.key}
-              className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]"
+              key={component.name}
+              className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]"
             >
               <Card className="border-primary/10 bg-primary text-primary-foreground">
                 <CardHeader className="space-y-4">
                   <div className="flex flex-wrap gap-2">
                     <Badge className="bg-white/12 text-primary-foreground hover:bg-white/12">
-                      {meta.cognitiveJob}
+                      Group {component.group}
                     </Badge>
                     <Badge className="bg-white/12 text-primary-foreground hover:bg-white/12">
-                      {meta.shadcnPrimitive}
+                      {component.status}
+                    </Badge>
+                    <Badge className="bg-white/12 text-primary-foreground hover:bg-white/12">
+                      {component.cognitiveJob}
                     </Badge>
                   </div>
                   <CardTitle className="font-[var(--font-display)] text-3xl">
-                    {meta.name}
+                    {component.name}
                   </CardTitle>
                   <CardDescription className="text-base leading-7 text-primary-foreground/75">
-                    {meta.purpose}
+                    {component.purpose}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm leading-6 text-primary-foreground/88">
                   <div>
                     <p className="font-semibold">Behavior modes</p>
-                    <p>{meta.behaviourModes.join(", ")}</p>
+                    <p>{component.behaviourModes.join(", ")}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Primitive</p>
+                    <p>{component.shadcnPrimitive}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Print fallback</p>
-                    <p>{meta.printFallback}</p>
+                    <p>{component.printFallback}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Capacity</p>
                     <ul className="space-y-1">
-                      {Object.entries(meta.capacity).map(([label, value]) => (
+                      {Object.entries(component.capacity).map(([label, value]) => (
                         <li key={label}>
                           {label}: {String(value)}
                         </li>
@@ -115,7 +144,7 @@ export default function ShowcasePage() {
                   </div>
                 </CardContent>
               </Card>
-              <div className="lesson-shell p-5 sm:p-7">{entry.render}</div>
+              <div className="lesson-shell p-5 sm:p-7">{render}</div>
             </section>
           );
         })}

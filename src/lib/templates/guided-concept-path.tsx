@@ -1,6 +1,7 @@
 import { AlertCircle } from "lucide-react";
 
 import type { SectionContent } from "@/lib/types";
+import { getSectionHeaderContent } from "@/lib/types";
 import {
   DefinitionCard,
   ExplanationBlock,
@@ -22,6 +23,7 @@ export function GuidedConceptPathTemplate({
   section: SectionContent;
 }) {
   const warnings = validateSection(section);
+  const header = getSectionHeaderContent(section);
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
@@ -29,17 +31,17 @@ export function GuidedConceptPathTemplate({
         <div className="relative z-10 space-y-6">
           <header className="space-y-4">
             <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">{section.subject}</Badge>
-              <Badge variant="outline">{section.grade_band}</Badge>
+              <Badge variant="secondary">{header.subject}</Badge>
+              <Badge variant="outline">{header.grade_band}</Badge>
               <Badge variant="outline">{section.template_id}</Badge>
             </div>
             <div className="space-y-2">
               <h2 className="font-[var(--font-display)] text-4xl text-primary sm:text-5xl">
-                {section.title}
+                {header.title}
               </h2>
-              {section.subtitle ? (
+              {header.subtitle ? (
                 <p className="text-lg leading-7 text-muted-foreground">
-                  {section.subtitle}
+                  {header.subtitle}
                 </p>
               ) : null}
             </div>

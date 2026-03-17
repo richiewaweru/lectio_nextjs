@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
 import type { DefinitionContent } from "@/lib/types";
+import { MathFormula } from "@/lib/components/lectio/MathFormula";
 import { Badge } from "@/lib/components/ui/badge";
 import { Button } from "@/lib/components/ui/button";
 import {
@@ -25,9 +26,16 @@ export function DefinitionCard({ content }: { content: DefinitionContent }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-base leading-7 text-foreground/85">
-          {showFormal ? content.formal : content.plain}
-        </p>
+        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+          <p className="text-base leading-7 text-foreground/85">
+            {showFormal ? content.formal : content.plain}
+          </p>
+          {content.symbol ? (
+            <div className="rounded-[1.25rem] border border-fuchsia-200 bg-white/85 px-4 py-3 text-center text-3xl font-semibold text-fuchsia-700">
+              {content.symbol}
+            </div>
+          ) : null}
+        </div>
         <Button
           variant="ghost"
           size="sm"
@@ -43,6 +51,17 @@ export function DefinitionCard({ content }: { content: DefinitionContent }) {
           <p className="text-sm italic text-muted-foreground">
             Etymology: {content.etymology}
           </p>
+        ) : null}
+        {content.notation ? (
+          <div className="rounded-[1.25rem] border border-fuchsia-200 bg-white/85 p-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-fuchsia-700/80">
+              Notation
+            </p>
+            <MathFormula
+              formula={content.notation}
+              className="text-base text-primary"
+            />
+          </div>
         ) : null}
         {content.examples?.length ? (
           <div className="space-y-2">

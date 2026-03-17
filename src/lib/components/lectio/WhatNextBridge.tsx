@@ -24,7 +24,12 @@ export function WhatNextBridge({ content }: { content: WhatNextContent }) {
             <span className="font-semibold text-foreground/75">
               Prerequisites:
             </span>{" "}
-            {content.prerequisites.join(" • ")}
+            {content.prerequisites.join(", ")}
+          </div>
+        ) : null}
+        {content.preview ? (
+          <div className="rounded-[1rem] bg-white/80 p-3 text-sm leading-6 text-amber-950/82">
+            Preview: {content.preview}
           </div>
         ) : null}
         <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-900">

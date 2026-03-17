@@ -17,11 +17,21 @@ import {
 
 export function PitfallAlert({ content }: { content: PitfallContent }) {
   const displayExamples = content.examples ?? (content.example ? [content.example] : []);
+  const tone =
+    content.severity === "minor"
+      ? {
+          wrapper: "border-amber-200 bg-amber-50/84",
+          icon: "bg-amber-100 text-amber-700"
+        }
+      : {
+          wrapper: "border-amber-300 bg-amber-50/92",
+          icon: "bg-amber-100 text-amber-700"
+        };
 
   return (
-    <Alert className="border-amber-300 bg-amber-50/92">
+    <Alert className={tone.wrapper}>
       <div className="flex items-start gap-3">
-        <div className="mt-1 rounded-full bg-amber-100 p-2 text-amber-700">
+        <div className={`mt-1 rounded-full p-2 ${tone.icon}`}>
           <TriangleAlert className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
