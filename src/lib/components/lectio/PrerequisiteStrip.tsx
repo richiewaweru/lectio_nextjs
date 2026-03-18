@@ -33,7 +33,11 @@ export function PrerequisiteStrip({
             item.refresher ? (
               <Popover key={item.concept}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    aria-label={`Show refresher for ${item.concept}`}
+                  >
                     {item.concept}
                   </Button>
                 </PopoverTrigger>

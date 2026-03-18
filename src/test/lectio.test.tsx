@@ -7,8 +7,10 @@ import { DefinitionFamily } from "@/lib/components/lectio/DefinitionFamily";
 import { DiagramBlock } from "@/lib/components/lectio/DiagramBlock";
 import { DiagramCompare } from "@/lib/components/lectio/DiagramCompare";
 import { DiagramSeries } from "@/lib/components/lectio/DiagramSeries";
+import { GlossaryInline } from "@/lib/components/lectio/GlossaryInline";
 import { HookHero } from "@/lib/components/lectio/HookHero";
 import { PracticeStack } from "@/lib/components/lectio/PracticeStack";
+import { PrerequisiteStrip } from "@/lib/components/lectio/PrerequisiteStrip";
 import { QuizCheck } from "@/lib/components/lectio/QuizCheck";
 import { WorkedExampleCard } from "@/lib/components/lectio/WorkedExampleCard";
 import { getComponentsByGroup, getStableComponents } from "@/lib/registry";
@@ -111,6 +113,25 @@ describe("DiagramSeries", () => {
     expect(screen.getByText(/Add a secant line between nearby points/i)).toBeInTheDocument();
     expect(screen.getByText(/Step 2 of 3/i)).toBeInTheDocument();
   });
+
+  it("clamps a stale active index when the diagrams array shrinks on rerender", () => {
+    const { rerender } = render(<DiagramSeries content={calculusExtendedSection.diagram_series!} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /next/i }));
+    expect(screen.getByText(/Add a secant line between nearby points/i)).toBeInTheDocument();
+
+    rerender(
+      <DiagramSeries
+        content={{
+          ...calculusExtendedSection.diagram_series!,
+          diagrams: [calculusExtendedSection.diagram_series!.diagrams[0]]
+        }}
+      />
+    );
+
+    expect(screen.getByText(/Begin with the curve alone/i)).toBeInTheDocument();
+    expect(screen.getByText(/Step 1 of 1/i)).toBeInTheDocument();
+  });
 });
 
 describe("PracticeStack", () => {
@@ -204,6 +225,32 @@ describe("QuizCheck", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /try again/i })
+    ).toBeInTheDocument();
+  });
+});
+
+describe("trigger accessibility", () => {
+  it("adds descriptive aria-labels to prerequisite refresher and glossary trigger buttons", () => {
+    render(
+      <PrerequisiteStrip
+        content={{
+          label: "Before we begin",
+          items: [{ concept: "Slope", refresher: "Rise over run." }]
+        }}
+      />
+    );
+    render(
+      <GlossaryInline
+        term="Derivative"
+        definition="The local slope a function approaches at a point."
+      />
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Show refresher for Slope" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Definition of Derivative" })
     ).toBeInTheDocument();
   });
 });

@@ -13,6 +13,7 @@ export function GlossaryInline({ term, definition }: GlossaryInlineProps) {
       <PopoverTrigger asChild>
         <button
           type="button"
+          aria-label={`Definition of ${term}`}
           className="inline-flex items-center rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-sm font-semibold text-amber-900 underline decoration-dotted underline-offset-4"
         >
           {term}

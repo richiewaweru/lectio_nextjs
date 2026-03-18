@@ -18,11 +18,15 @@ export function DiagramSeries({
   content: DiagramSeriesContent;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeDiagram = content.diagrams[activeIndex];
+  const currentIndex =
+    content.diagrams.length === 0
+      ? 0
+      : Math.min(activeIndex, content.diagrams.length - 1);
+  const activeDiagram = content.diagrams[currentIndex] ?? content.diagrams[0];
   const progressPercent =
-    content.diagrams.length <= 1
+    !activeDiagram || content.diagrams.length <= 1
       ? 100
-      : ((activeIndex + 1) / content.diagrams.length) * 100;
+      : ((currentIndex + 1) / content.diagrams.length) * 100;
 
   if (!activeDiagram) {
     return null;
@@ -40,7 +44,7 @@ export function DiagramSeries({
         <div className="space-y-3 rounded-[1.2rem] border border-border/70 bg-white/78 p-4">
           <div className="flex items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             <span>
-              Step {activeIndex + 1} of {content.diagrams.length}
+              Step {currentIndex + 1} of {content.diagrams.length}
             </span>
             <span>{activeDiagram.step_label}</span>
           </div>
@@ -56,12 +60,12 @@ export function DiagramSeries({
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 className="group rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                aria-current={index === activeIndex ? "step" : undefined}
+                aria-current={index === currentIndex ? "step" : undefined}
               >
                 <span className="sr-only">{diagram.step_label}</span>
                 <span
                   className={`block h-2 rounded-full transition-all ${
-                    index <= activeIndex
+                    index <= currentIndex
                       ? "bg-primary"
                       : "bg-secondary group-hover:bg-secondary/80"
                   }`}
@@ -80,7 +84,7 @@ export function DiagramSeries({
               size="sm"
               variant="outline"
               onClick={() => setActiveIndex((current) => Math.max(0, current - 1))}
-              disabled={activeIndex === 0}
+              disabled={currentIndex === 0}
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -96,7 +100,7 @@ export function DiagramSeries({
                   Math.min(content.diagrams.length - 1, current + 1)
                 )
               }
-              disabled={activeIndex === content.diagrams.length - 1}
+              disabled={currentIndex === content.diagrams.length - 1}
             >
               Next
               <ChevronRight className="h-4 w-4" />
