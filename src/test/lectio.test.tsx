@@ -13,7 +13,7 @@ import { PracticeStack } from "@/lib/components/lectio/PracticeStack";
 import { PrerequisiteStrip } from "@/lib/components/lectio/PrerequisiteStrip";
 import { QuizCheck } from "@/lib/components/lectio/QuizCheck";
 import { WorkedExampleCard } from "@/lib/components/lectio/WorkedExampleCard";
-import { getComponentsByGroup, getStableComponents } from "@/lib/registry";
+import { componentRegistry, getComponentFieldMap, getComponentsByGroup, getStableComponents } from "@/lib/registry";
 import { ExtendedConceptPathTemplate } from "@/lib/templates/extended-concept-path";
 import { GuidedConceptPathTemplate } from "@/lib/templates/guided-concept-path";
 import type { PracticeContent } from "@/lib/types";
@@ -352,6 +352,32 @@ describe("validateSection", () => {
         warning.includes("[Lectio/WhatNextBridge] has 5 prerequisites; max is 4.")
       )
     ).toBe(true);
+  });
+});
+
+describe("getComponentFieldMap", () => {
+  it("derives a non-empty component field map from the registry", () => {
+    const map = getComponentFieldMap();
+    expect(Object.keys(map).length).toBeGreaterThan(0);
+  });
+
+  it("includes every registry component with a non-null sectionField in the field map", () => {
+    const map = getComponentFieldMap();
+    for (const component of Object.values(componentRegistry)) {
+      if (component.sectionField !== null) {
+        expect(map[component.id]).toBe(component.sectionField);
+      }
+    }
+  });
+
+  it("excludes GlossaryInline (sectionField: null) from the field map", () => {
+    const map = getComponentFieldMap();
+    expect(map["glossary-inline"]).toBeUndefined();
+  });
+
+  it("includes SimulationBlock in the field map", () => {
+    const map = getComponentFieldMap();
+    expect(map["simulation-block"]).toBe("simulation");
   });
 });
 

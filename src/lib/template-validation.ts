@@ -1,55 +1,28 @@
+// Template validation — runs at registry load time.
+// Catches broken templates before they reach the gallery.
+//
+// Three checks per template:
+//   validateTemplateContract  — structure, references, presets
+//   validateTemplatePreview   — preview section has required content
+//   validateTemplateDefinition — both combined (the one you call)
+
 import { basePresetMap } from "@/lib/presets/base-presets";
+import { getComponentById, getComponentFieldMap } from "@/lib/registry";
 import type {
   TemplateContract,
   TemplateDefinition,
   TemplateValidationResult
 } from "@/lib/template-types";
-import { componentRegistry } from "@/lib/registry";
 import type { SectionContent } from "@/lib/types";
 
-const componentFieldMap: Record<string, keyof SectionContent | "header"> = {
-  "section-header": "header",
-  "hook-hero": "hook",
-  "explanation-block": "explanation",
-  "prerequisite-strip": "prerequisites",
-  "what-next-bridge": "what_next",
-  "interview-anchor": "interview",
-  "definition-card": "definition",
-  "definition-family": "definition_family",
-  "glossary-rail": "glossary",
-  "glossary-inline": "glossary",
-  "insight-strip": "insight_strip",
-  "worked-example-card": "worked_example",
-  "process-steps": "process",
-  "practice-stack": "practice",
-  "quiz-check": "quiz",
-  "reflection-prompt": "reflection",
-  "pitfall-alert": "pitfall",
-  "diagram-block": "diagram",
-  "diagram-compare": "diagram_compare",
-  "diagram-series": "diagram_series",
-  "simulation-block": "simulation",
-  "comparison-grid": "comparison_grid",
-  "timeline-block": "timeline"
-};
+// Derived from the registry — never hardcoded here.
+// When you add a new component with sectionField declared,
+// it is automatically included. This file never needs to change.
+const componentFieldMap = getComponentFieldMap();
 
-function findComponentMeta(componentId: string) {
-  return Object.values(componentRegistry).find(
-    (component) => component.id === componentId
-  );
-}
-
-function hasPreviewField(section: SectionContent, componentId: string) {
+function hasPreviewField(section: SectionContent, componentId: string): boolean {
   const field = componentFieldMap[componentId];
-
-  if (!field) {
-    return false;
-  }
-
-  if (field === "header") {
-    return Boolean(section.header);
-  }
-
+  if (!field) return false;
   return Boolean(section[field]);
 }
 
@@ -57,6 +30,7 @@ export function validateTemplateContract(contract: TemplateContract): TemplateVa
   const errors: string[] = [];
   const warnings: string[] = [];
 
+  // ── Required prose fields ─────────────────────────────
   if (!contract.tagline.trim()) {
     errors.push(`${contract.id}: tagline is required.`);
   }
@@ -69,45 +43,43 @@ export function validateTemplateContract(contract: TemplateContract): TemplateVa
     errors.push(`${contract.id}: requiredComponents must not be empty.`);
   }
 
-  const componentIds = [
-    ...contract.requiredComponents,
-    ...contract.optionalComponents
-  ];
+  // ── All component ids must exist in the registry ──────
+  const allComponentIds = [...contract.requiredComponents, ...contract.optionalComponents];
 
-  for (const componentId of componentIds) {
-    const componentMeta = findComponentMeta(componentId);
-
-    if (!componentMeta) {
+  for (const componentId of allComponentIds) {
+    if (!getComponentById(componentId)) {
       errors.push(`${contract.id}: unknown component "${componentId}".`);
-      continue;
     }
   }
 
+  // ── defaultBehaviours must reference valid components
+  // and behaviours those components actually support ─────
   for (const [componentId, behaviour] of Object.entries(contract.defaultBehaviours)) {
-    const componentMeta = findComponentMeta(componentId);
+    const meta = getComponentById(componentId);
 
-    if (!componentMeta) {
-      errors.push(`${contract.id}: behaviour set for unknown component "${componentId}".`);
-      continue;
-    }
-
-    if (!behaviour) {
-      continue;
-    }
-
-    if (!componentMeta.behaviourModes.includes(behaviour)) {
+    if (!meta) {
       errors.push(
-        `${contract.id}: behaviour "${behaviour}" is not supported by "${componentId}".`
+        `${contract.id}: behaviour set for unknown component "${componentId}".`
+      );
+      continue;
+    }
+
+    if (behaviour && !meta.behaviourModes.includes(behaviour)) {
+      errors.push(
+        `${contract.id}: behaviour "${behaviour}" is not supported by "${componentId}". ` +
+        `Supported: ${meta.behaviourModes.join(", ")}.`
       );
     }
   }
 
+  // ── All allowed presets must exist in the preset registry
   for (const presetId of contract.allowedPresets) {
     if (!basePresetMap[presetId]) {
       errors.push(`${contract.id}: unknown preset "${presetId}".`);
     }
   }
 
+  // ── Consistency warnings ──────────────────────────────
   if (contract.interactionLevel === "none" && Object.keys(contract.defaultBehaviours).length) {
     warnings.push(
       `${contract.id}: interactionLevel is "none" but defaultBehaviours is not empty.`
@@ -123,6 +95,8 @@ export function validateTemplatePreview(
   const errors: string[] = [];
   const warnings: string[] = [];
 
+  // Every required component must have corresponding content
+  // in the preview section, so the gallery card renders correctly.
   for (const componentId of definition.contract.requiredComponents) {
     if (!hasPreviewField(definition.preview.section, componentId)) {
       errors.push(
