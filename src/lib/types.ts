@@ -351,6 +351,7 @@ export interface InteractionSpec {
 
 export interface SimulationContent {
   spec: InteractionSpec;
+  html_content?: string; // self-contained HTML document from the LLM
   fallback_diagram?: DiagramContent;
   explanation?: string;
 }

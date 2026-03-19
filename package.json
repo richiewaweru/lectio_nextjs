@@ -1,7 +1,27 @@
 {
-  "name": "lectio_nextjs",
+  "name": "lectio-react",
   "version": "0.1.0",
   "private": true,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./theme.css": {
+      "default": "./src/lib/theme.css"
+    }
+  },
+  "files": [
+    "dist",
+    "src/lib/theme.css",
+    "src/lib/components/lectio",
+    "src/lib/components/ui",
+    "src/lib/templates"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +31,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "package": "tsup && tsc --project tsconfig.lib.json --outDir dist --declaration --emitDeclarationOnly",
     "export-contracts": "npx tsx scripts/export-contracts.ts"
   },
   "dependencies": {
@@ -45,8 +66,13 @@
     "jsdom": "^27.0.1",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
+    "tsup": "^8.5.1",
     "tsx": "^4.19.3",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   }
 }

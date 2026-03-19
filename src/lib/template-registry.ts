@@ -32,6 +32,14 @@ import { GuidedConceptCompactLayout } from "@/lib/templates/guided-concept-compa
 import { guidedConceptCompactPresets } from "@/lib/templates/guided-concept-compact/presets";
 import { guidedConceptCompactPreview } from "@/lib/templates/guided-concept-compact/preview";
 import { guidedConceptPathContract } from "@/lib/templates/guided-concept-path/config";
+import { guidedDiscoveryContract } from "@/lib/templates/guided-discovery/config";
+import { GuidedDiscoveryLayout } from "@/lib/templates/guided-discovery/layout";
+import { guidedDiscoveryPresets } from "@/lib/templates/guided-discovery/presets";
+import { guidedDiscoveryPreview } from "@/lib/templates/guided-discovery/preview";
+import { interactiveLabContract } from "@/lib/templates/interactive-lab/config";
+import { InteractiveLabLayout } from "@/lib/templates/interactive-lab/layout";
+import { interactiveLabPresets } from "@/lib/templates/interactive-lab/presets";
+import { interactiveLabPreview } from "@/lib/templates/interactive-lab/preview";
 import { GuidedConceptPathLayout } from "@/lib/templates/guided-concept-path/layout";
 import { guidedConceptPathPresets } from "@/lib/templates/guided-concept-path/presets";
 import { guidedConceptPathPreview } from "@/lib/templates/guided-concept-path/preview";
@@ -114,6 +122,20 @@ export const templateRegistry: TemplateDefinition[] = [
     presets: processTrainerPresets,
     render: ProcessTrainerLayout,
     readmePath: "src/lib/templates/process-trainer/README.md"
+  },
+  {
+    contract: interactiveLabContract,
+    preview: interactiveLabPreview,
+    presets: interactiveLabPresets,
+    render: InteractiveLabLayout,
+    readmePath: "src/lib/templates/interactive-lab/README.md"
+  },
+  {
+    contract: guidedDiscoveryContract,
+    preview: guidedDiscoveryPreview,
+    presets: guidedDiscoveryPresets,
+    render: GuidedDiscoveryLayout,
+    readmePath: "src/lib/templates/guided-discovery/README.md"
   }
 ];
 

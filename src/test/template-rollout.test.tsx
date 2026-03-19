@@ -30,8 +30,24 @@ beforeEach(() => {
 });
 
 describe("template registry", () => {
-  it("registers all 10 starter templates with valid contracts and previews", () => {
-    expect(templateRegistry).toHaveLength(10);
+  it("registers the live template family set with valid contracts and previews", () => {
+    expect(templateRegistry).toHaveLength(12);
+    expect(templateRegistry.map((definition) => definition.contract.id)).toEqual(
+      expect.arrayContaining([
+        "guided-concept-path",
+        "figure-first",
+        "compare-and-apply",
+        "focus-flow",
+        "guided-concept-compact",
+        "formal-track",
+        "diagram-led-lesson",
+        "distinction-grid",
+        "timeline-narrative",
+        "process-trainer",
+        "interactive-lab",
+        "guided-discovery"
+      ])
+    );
 
     const results = validateAllTemplates();
 

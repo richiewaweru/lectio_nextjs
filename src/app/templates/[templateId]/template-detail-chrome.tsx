@@ -26,7 +26,6 @@ const STORAGE_KEY = "template-contract-drawer-open";
 interface TemplateDetailChromeProps {
   contract: TemplateContract;
   presets: TemplatePresetDefinition[];
-  previewSummary: string;
   children: ReactNode;
 }
 
@@ -49,7 +48,6 @@ function writeDesktopPreference(value: boolean) {
 export function TemplateDetailChrome({
   contract,
   presets,
-  previewSummary,
   children
 }: TemplateDetailChromeProps) {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -171,9 +169,6 @@ export function TemplateDetailChrome({
         <section className="space-y-4 md:min-w-0">
           <div>
             <p className="eyebrow">Live preview</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {previewSummary}
-            </p>
           </div>
           {children}
         </section>
