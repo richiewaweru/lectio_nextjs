@@ -1,31 +1,9 @@
 @import "tailwindcss";
+@import "../lib/theme.css";
 
 @layer base {
-  :root {
-    --background: 38 52% 96%;
-    --foreground: 216 32% 18%;
-    --card: 0 0% 100%;
-    --card-foreground: 216 32% 18%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 216 32% 18%;
-    --primary: 217 56% 24%;
-    --primary-foreground: 42 80% 96%;
-    --secondary: 38 42% 91%;
-    --secondary-foreground: 216 28% 22%;
-    --muted: 38 35% 90%;
-    --muted-foreground: 215 18% 43%;
-    --accent: 24 83% 54%;
-    --accent-foreground: 38 52% 98%;
-    --destructive: 0 74% 47%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 35 25% 82%;
-    --input: 35 25% 82%;
-    --ring: 24 83% 54%;
-    --radius: 1rem;
-  }
-
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--border);
   }
 
   html {
@@ -34,121 +12,11 @@
 
   body {
     min-height: 100vh;
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--background);
+    color: var(--foreground);
     background-image:
       radial-gradient(circle at top left, rgba(217, 119, 6, 0.12), transparent 30%),
       radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 28%),
       linear-gradient(180deg, rgba(255, 251, 235, 0.9), rgba(250, 245, 236, 0.96));
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-  }
-
-  p {
-    text-wrap: pretty;
-  }
-
-  .scrollbar-styled::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  .scrollbar-styled::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-styled::-webkit-scrollbar-thumb {
-    background: rgba(15, 23, 42, 0.2);
-    border-radius: 9999px;
-  }
-
-  .scrollbar-styled::-webkit-scrollbar-thumb:hover {
-    background: rgba(15, 23, 42, 0.35);
-  }
-
-  .scrollbar-styled {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(15, 23, 42, 0.2) transparent;
-  }
-}
-
-@layer utilities {
-  .lesson-shell {
-    position: relative;
-    overflow: hidden;
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 24px 80px rgba(27, 38, 59, 0.14);
-    backdrop-filter: blur(18px);
-  }
-
-  .glass-panel {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.68);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 240, 0.82)),
-      rgba(255, 255, 255, 0.86);
-    box-shadow:
-      0 24px 70px rgba(27, 38, 59, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(22px);
-  }
-
-  .glass-panel::before {
-    content: "";
-    inset: 0;
-    position: absolute;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at top left, rgba(255, 255, 255, 0.45), transparent 38%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 55%);
-  }
-
-  .lesson-shell::before {
-    background-image: linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
-      linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-    background-position: 0 0;
-    background-size: 24px 24px;
-    content: "";
-    inset: 0;
-    position: absolute;
-    pointer-events: none;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), transparent 55%);
-  }
-
-  .page-frame {
-    margin-inline: auto;
-    width: 100%;
-    max-width: 80rem;
-    padding: 2.5rem 1rem;
-  }
-
-  .eyebrow {
-    color: hsl(var(--accent));
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-  }
-}
-
-@media (min-width: 640px) {
-  .page-frame {
-    padding-inline: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .page-frame {
-    padding-inline: 2rem;
   }
 }

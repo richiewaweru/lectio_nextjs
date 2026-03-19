@@ -4,7 +4,7 @@ Educational component library built on Next.js + React 19 + TypeScript + Tailwin
 
 ## Using Lectio React as a Local Library
 
-Lectio React is packaged with `tsup` (esbuild). Another React/Next.js project can consume it via a local file reference.
+Lectio React is packaged with `tsup` plus declaration output. Another React or Next.js project can consume it via a local file reference.
 
 ### 1. Build the library
 
@@ -48,16 +48,16 @@ If consuming from Next.js, add to your `next.config.ts`:
 
 ```ts
 const nextConfig = {
-  transpilePackages: ['lectio-react'],
+  transpilePackages: ["lectio-react"],
 };
 ```
 
 ### 4. Import and use
 
 ```tsx
-import { HookHero, SectionHeader, ExplanationBlock } from 'lectio-react';
-import type { SectionContent } from 'lectio-react';
-import { validateSection, warnIfInvalid } from 'lectio-react';
+import { HookHero, SectionHeader, ExplanationBlock } from "lectio-react";
+import type { SectionContent } from "lectio-react";
+import { validateSection, warnIfInvalid } from "lectio-react";
 
 export default function Lesson({ section }: { section: SectionContent }) {
   warnIfInvalid(section);
@@ -72,11 +72,18 @@ export default function Lesson({ section }: { section: SectionContent }) {
 }
 ```
 
+Import the shared Lectio React theme once in your app stylesheet so template shells, tokens, KaTeX styles, and preset-scoped visuals are available:
+
+```css
+@import "tailwindcss";
+@import "lectio-react/theme.css";
+```
+
 After changing Lectio source, rebuild with `npm run package` for changes to appear in the consuming project.
 
 ## Public API
 
-Everything is exported from a single entry point: `import { ... } from 'lectio-react'`.
+Everything is exported from a single entry point: `import { ... } from "lectio-react"`.
 
 ### Components (23)
 
@@ -90,55 +97,103 @@ Everything is exported from a single entry point: `import { ... } from 'lectio-r
 | Diagrams | `DiagramBlock`, `DiagramCompare`, `DiagramSeries`, `TimelineBlock` |
 | Simulation | `SimulationBlock` |
 
-Each component accepts a typed `content` prop (e.g. `HookHeroContent`, `QuizContent`). All content types are nested inside the root `SectionContent` interface.
+Each component accepts a typed `content` prop. All content types are nested inside the root `SectionContent` interface.
+
+`SimulationBlock` now supports three runtime modes:
+
+- Live sandboxed iframe content when `SimulationContent.html_content` is present
+- Static diagram fallback when `fallback_diagram` is present
+- Scaffold placeholder when only the simulation `spec` is available
 
 ### Registry
 
 ```ts
-import { componentRegistry, getStableComponents, getComponentById } from 'lectio-react';
-import type { ComponentMeta } from 'lectio-react';
+import { componentRegistry, getStableComponents, getComponentById } from "lectio-react";
+import type { ComponentMeta } from "lectio-react";
 
 const allComponents = getStableComponents();
-const hook = getComponentById('hook-hero');
+const hook = getComponentById("hook-hero");
 ```
 
-### Templates (10)
+### Templates (12)
+
+```tsx
+import { TemplatePreviewSurface, TemplateRuntimeSurface } from "lectio-react";
+import type { SectionContent } from "lectio-react";
+
+export function Lesson({ section }: { section: SectionContent }) {
+  return (
+    <>
+      <TemplatePreviewSurface
+        templateId="guided-concept-path"
+        presetId="blue-classroom"
+      />
+      <TemplateRuntimeSurface
+        templateId="guided-concept-path"
+        presetId="blue-classroom"
+        section={section}
+      />
+    </>
+  );
+}
+```
+
+Available templates: `guided-concept-path`, `figure-first`, `compare-and-apply`, `focus-flow`, `guided-concept-compact`, `formal-track`, `diagram-led-lesson`, `distinction-grid`, `timeline-narrative`, `process-trainer`, `interactive-lab`, `guided-discovery`.
+
+For advanced or internal consumers, Lectio React also exports the low-level runtime pieces:
 
 ```ts
-import { templateRegistry, getTemplateById, filterTemplates } from 'lectio-react';
-import type { TemplateDefinition, TemplateContract } from 'lectio-react';
-
-const template = getTemplateById('guided-concept-path');
+import {
+  LectioThemeSurface,
+  ResolvedTemplatePreviewSurface,
+  templateRegistry,
+  templateRegistryMap,
+  getTemplateById,
+  filterTemplates
+} from "lectio-react";
 ```
 
-Available templates: `guided-concept-path`, `figure-first`, `compare-and-apply`, `focus-flow`, `guided-concept-compact`, `formal-track`, `diagram-led-lesson`, `distinction-grid`, `timeline-narrative`, `process-trainer`.
+Preset resolution is template-aware. Unsupported preset IDs fall back to `warm-paper` when allowed, then to the first preset allowed by that template.
+
+### Simulation Content
+
+```ts
+import type { SimulationContent } from "lectio-react";
+
+const simulation: SimulationContent = {
+  explanation: "Observe how the output changes as you drag the slider.",
+  html_content: "<!DOCTYPE html><html>...</html>",
+  spec: {
+    type: "graph_slider",
+    goal: "Show the relationship directly.",
+    anchor_content: {},
+    context: {
+      learner_level: "secondary",
+      template_id: "interactive-lab",
+      color_mode: "light",
+      accent_color: "#f97316",
+      surface_color: "#fff7ed",
+      font_mono: "ui-monospace"
+    },
+    dimensions: { width: "100%", height: 320, resizable: false },
+    print_translation: "static_diagram"
+  }
+};
+```
 
 ### Validation
 
 ```ts
-import { validateSection, warnIfInvalid } from 'lectio-react';
+import { validateSection, warnIfInvalid } from "lectio-react";
 
-const warnings = validateSection(section); // string[]
-warnIfInvalid(section); // logs to console in browser
-```
-
-### Type Helpers
-
-```ts
-import {
-  getSectionHeaderContent,
-  getWorkedExamples,
-  getPitfallList,
-  normalizePracticeHints,
-  getPracticeAnswer,
-  normalizePracticeSolution,
-} from 'lectio-react';
+const warnings = validateSection(section);
+warnIfInvalid(section);
 ```
 
 ### Presets
 
 ```ts
-import { basePresets, basePresetMap } from 'lectio-react';
+import { basePresets, basePresetMap } from "lectio-react";
 ```
 
 Five built-in colour presets: Blue Classroom, Warm Paper, Calm Green, High Contrast Focus, Minimal Light.
@@ -146,37 +201,41 @@ Five built-in colour presets: Blue Classroom, Warm Paper, Calm Green, High Contr
 ### Utility
 
 ```ts
-import { cn } from 'lectio-react'; // clsx + tailwind-merge
+import { cn } from "lectio-react";
 ```
 
-## Export Contracts (Pipeline Bridge)
+## Export Contracts
 
-The `export-contracts` script exports template, component, and preset metadata as JSON for external pipelines (e.g. Python AI agents) that need to know about Lectio's structure without importing TypeScript.
+The `export-contracts` script exports template, component, and preset metadata as JSON for external runtimes that need Lectio's structure without importing TypeScript.
 
 ```bash
-npm run export-contracts                           # Default: agents/contracts/
-npm run export-contracts -- --out /path/to/output   # Custom output directory
-LECTIO_CONTRACTS_DIR=/path/to/output npm run export-contracts  # Via env var
+npm run export-contracts
+npm run export-contracts -- --out /path/to/output
+LECTIO_CONTRACTS_DIR=/path/to/output npm run export-contracts
 ```
 
 Output files:
-- `{template-id}.json` (×10) — template contract with lesson flow, required/optional components, generation guidance, and `allowed_presets`
-- `component-field-map.json` — maps component IDs to their `SectionContent` field names
-- `component-registry.json` — full component metadata (capacity, behaviour modes, cognitive job, etc.)
-- `preset-registry.json` — visual preset palette, typography, density, and surface style
+- `{template-id}.json` (x12) - template contract with lesson flow, required/optional components, generation guidance, and `allowed_presets`
+- `component-field-map.json` - maps component IDs to their `SectionContent` field names
+- `component-registry.json` - full component metadata
+- `preset-registry.json` - visual preset palette, typography, density, and surface style
 
-Run this whenever templates, components, or presets change. The pipeline reads these files — it never imports from `src/`.
+Run this whenever templates, components, or presets change. External systems should read the exported JSON rather than importing from `src/`.
+
+## Reference Docs
+
+- `docs/reference/component-guide.md`
+- `docs/reference/template-runtime-surfaces.md`
 
 ## Development
 
 ```bash
-npm run dev          # Start Next.js dev server (showcase at localhost:3000)
-npm run typecheck    # TypeScript type checking
-npm run lint         # ESLint
-npm run test         # Run Vitest test suite
-npm run build        # Production Next.js build
-npm run package      # Library build (src/lib/ -> dist/)
-npm run validate     # Run lint + typecheck + test + build
+npm run dev
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run package
 ```
 
 ## Stack
@@ -184,24 +243,25 @@ npm run validate     # Run lint + typecheck + test + build
 - Next.js 16 (App Router) + React 19
 - TypeScript (strict)
 - Tailwind CSS v4
-- Radix UI primitives (shadcn/ui style)
-- KaTeX (math rendering)
-- Lucide React (icons)
+- Radix UI primitives
+- KaTeX
+- Lucide React
 - Vitest + Testing Library
 
 ## Project Structure
 
-```
+```text
 src/lib/
-├── index.ts                    # Library entry point (barrel export)
-├── types.ts                    # All content type interfaces + helpers
-├── registry.ts                 # Component metadata registry
-├── validate.ts                 # Content capacity validation
-├── template-registry.ts        # Template definitions + helpers
-├── template-types.ts           # Template type interfaces
-├── template-validation.ts      # Template contract validation
-├── presets/base-presets.ts      # Colour preset definitions
-├── components/lectio/          # 23 educational components
-├── components/ui/              # Radix UI primitives (internal)
-└── templates/                  # Template layout files (internal)
+|-- index.ts
+|-- theme.css
+|-- types.ts
+|-- registry.ts
+|-- validate.ts
+|-- template-registry.ts
+|-- template-types.ts
+|-- template-validation.ts
+|-- presets/base-presets.ts
+|-- components/lectio/
+|-- components/ui/
+`-- templates/
 ```

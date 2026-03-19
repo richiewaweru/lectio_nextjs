@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Fraunces, Public_Sans } from "next/font/google";
-import "katex/dist/katex.min.css";
 
 import { AppShell } from "@/app/app-shell";
 import "./globals.css";

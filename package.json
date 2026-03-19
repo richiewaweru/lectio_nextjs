@@ -10,10 +10,17 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "default": "./dist/index.mjs"
+    },
+    "./theme.css": {
+      "default": "./src/lib/theme.css"
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/lib/theme.css",
+    "src/lib/components/lectio",
+    "src/lib/components/ui",
+    "src/lib/templates"
   ],
   "scripts": {
     "dev": "next dev",

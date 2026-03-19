@@ -1,0 +1,438 @@
+{
+  "section-header": {
+    "id": "section-header",
+    "name": "SectionHeader",
+    "purpose": "Opens a section with orientation, scope, and difficulty signals.",
+    "cognitive_job": "Orient the learner",
+    "section_field": "header",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "titleMaxWords": 12,
+      "subtitleMaxWords": 20,
+      "objectiveMaxWords": 30,
+      "levelPillsMax": 4
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Full static header"
+  },
+  "hook-hero": {
+    "id": "hook-hero",
+    "name": "HookHero",
+    "purpose": "Creates felt need before formal explanation begins.",
+    "cognitive_job": "Create felt need",
+    "section_field": "hook",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "headlineMaxWords": 12,
+      "bodyMaxWords": 80,
+      "questionOptionsMax": 3,
+      "imageOptional": "url, alt"
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Pull quote block with supporting note"
+  },
+  "explanation-block": {
+    "id": "explanation-block",
+    "name": "ExplanationBlock",
+    "purpose": "Builds a mental model through sustained prose.",
+    "cognitive_job": "Build understanding through prose",
+    "section_field": "explanation",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "bodyMaxWords": 350,
+      "emphasisMaxItems": 3,
+      "calloutsMax": 3,
+      "calloutTextMaxWords": 60
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Static prose with emphasis preserved"
+  },
+  "prerequisite-strip": {
+    "id": "prerequisite-strip",
+    "name": "PrerequisiteStrip",
+    "purpose": "Surfaces assumed knowledge with optional refreshers.",
+    "cognitive_job": "Activate prior knowledge",
+    "section_field": "prerequisites",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "itemsMax": 4,
+      "refresherMaxWords": 60
+    },
+    "behaviour_modes": [
+      "static",
+      "hint-toggle"
+    ],
+    "print_fallback": "Inline prerequisite list"
+  },
+  "what-next-bridge": {
+    "id": "what-next-bridge",
+    "name": "WhatNextBridge",
+    "purpose": "Connects the learner forward to the next idea.",
+    "cognitive_job": "Connect forward",
+    "section_field": "what_next",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "bodyMaxWords": 50,
+      "nextMaxWords": 15,
+      "previewMaxWords": 30,
+      "prerequisitesMax": 4
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Static bridge note"
+  },
+  "interview-anchor": {
+    "id": "interview-anchor",
+    "name": "InterviewAnchor",
+    "purpose": "Turns knowledge into spoken explanation and transfer.",
+    "cognitive_job": "Rehearse explanation",
+    "section_field": "interview",
+    "group": 1,
+    "status": "stable",
+    "capacity": {
+      "promptMaxWords": 35,
+      "audienceMaxWords": 10,
+      "followUpMaxWords": 25
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Prompt card with follow-up"
+  },
+  "definition-card": {
+    "id": "definition-card",
+    "name": "DefinitionCard",
+    "purpose": "Anchors formal vocabulary with plain-language support.",
+    "cognitive_job": "Anchor formal knowledge",
+    "section_field": "definition",
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "formalMaxWords": 80,
+      "plainMaxWords": 60,
+      "examplesMax": 3,
+      "relatedTermsMax": 4,
+      "notationOptional": true
+    },
+    "behaviour_modes": [
+      "static",
+      "plain-formal-toggle"
+    ],
+    "print_fallback": "Show both formal and plain definitions"
+  },
+  "definition-family": {
+    "id": "definition-family",
+    "name": "DefinitionFamily",
+    "purpose": "Groups related terms that need contrast and coordination.",
+    "cognitive_job": "Distinguish related concepts",
+    "section_field": "definition_family",
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "definitionsMax": 4,
+      "introMaxWords": 40
+    },
+    "behaviour_modes": [
+      "static",
+      "accordion"
+    ],
+    "print_fallback": "All definitions expanded"
+  },
+  "glossary-rail": {
+    "id": "glossary-rail",
+    "name": "GlossaryRail",
+    "purpose": "Keeps key vocabulary nearby without breaking reading flow.",
+    "cognitive_job": "Retrieve meaning without losing place",
+    "section_field": "glossary",
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "termsMax": 8,
+      "definitionMaxWords": 30,
+      "relatedMax": 3
+    },
+    "behaviour_modes": [
+      "sticky",
+      "drawer",
+      "inline-strip"
+    ],
+    "print_fallback": "Inline vocabulary strip at section end"
+  },
+  "glossary-inline": {
+    "id": "glossary-inline",
+    "name": "GlossaryInline",
+    "purpose": "Defines a term in place without forcing a context switch.",
+    "cognitive_job": "Recover meaning inline",
+    "section_field": null,
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "definitionMaxWords": 30
+    },
+    "behaviour_modes": [
+      "hint-toggle"
+    ],
+    "print_fallback": "Inline parenthetical definition"
+  },
+  "insight-strip": {
+    "id": "insight-strip",
+    "name": "InsightStrip",
+    "purpose": "Summarizes the key pattern or comparison at a glance.",
+    "cognitive_job": "Compress the insight",
+    "section_field": "insight_strip",
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "cellsMin": 2,
+      "cellsMax": 3,
+      "noteMaxWords": 20
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Three-column summary strip"
+  },
+  "comparison-grid": {
+    "id": "comparison-grid",
+    "name": "ComparisonGrid",
+    "purpose": "Holds multiple concepts in view so distinctions become structural.",
+    "cognitive_job": "Compare and classify in parallel",
+    "section_field": "comparison_grid",
+    "group": 2,
+    "status": "stable",
+    "capacity": {
+      "columnsMin": 2,
+      "columnsMax": 4,
+      "rowsMax": 6,
+      "criterionMaxWords": 8,
+      "valueMaxWords": 20
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Static comparison table"
+  },
+  "worked-example-card": {
+    "id": "worked-example-card",
+    "name": "WorkedExampleCard",
+    "purpose": "Reveals reasoning step by step with explanation and formula support.",
+    "cognitive_job": "Model reasoning in action",
+    "section_field": "worked_example",
+    "group": 3,
+    "status": "stable",
+    "capacity": {
+      "stepsMax": 6,
+      "softWarningAt": 4,
+      "setupMaxWords": 60,
+      "conclusionMaxWords": 40,
+      "answerMaxWords": 30,
+      "alternativesMax": 3
+    },
+    "behaviour_modes": [
+      "static",
+      "step-reveal",
+      "accordion"
+    ],
+    "print_fallback": "All steps shown in sequence"
+  },
+  "process-steps": {
+    "id": "process-steps",
+    "name": "ProcessSteps",
+    "purpose": "Shows a reusable procedure learners can execute themselves.",
+    "cognitive_job": "Operationalize a process",
+    "section_field": "process",
+    "group": 3,
+    "status": "stable",
+    "capacity": {
+      "stepsMax": 8,
+      "introMaxWords": 40
+    },
+    "behaviour_modes": [
+      "static",
+      "step-reveal"
+    ],
+    "print_fallback": "Vertical numbered checklist"
+  },
+  "practice-stack": {
+    "id": "practice-stack",
+    "name": "PracticeStack",
+    "purpose": "Provides calibrated practice with progressive support.",
+    "cognitive_job": "Apply understanding",
+    "section_field": "practice",
+    "group": 4,
+    "status": "stable",
+    "capacity": {
+      "problemsMin": 1,
+      "problemsMax": 6,
+      "softWarningAt": 4,
+      "hintsMax": 3,
+      "questionMaxWords": 100,
+      "solutionWorkedMaxWords": 200
+    },
+    "behaviour_modes": [
+      "accordion",
+      "progressive-hints",
+      "hint-toggle",
+      "flat-list"
+    ],
+    "print_fallback": "Show all prompts and write-in space"
+  },
+  "quiz-check": {
+    "id": "quiz-check",
+    "name": "QuizCheck",
+    "purpose": "Verifies understanding immediately after instruction.",
+    "cognitive_job": "Check understanding",
+    "section_field": "quiz",
+    "group": 4,
+    "status": "stable",
+    "capacity": {
+      "optionsMin": 3,
+      "optionsMax": 4,
+      "questionMaxWords": 60,
+      "optionMaxWords": 20
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Question with correct answer marked"
+  },
+  "reflection-prompt": {
+    "id": "reflection-prompt",
+    "name": "ReflectionPrompt",
+    "purpose": "Pauses forward motion and consolidates learning.",
+    "cognitive_job": "Pause and consolidate",
+    "section_field": "reflection",
+    "group": 4,
+    "status": "stable",
+    "capacity": {
+      "promptMaxWords": 40,
+      "spaceMax": 6
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Prompt with write-in lines"
+  },
+  "pitfall-alert": {
+    "id": "pitfall-alert",
+    "name": "PitfallAlert",
+    "purpose": "Names a misconception before the learner falls into it.",
+    "cognitive_job": "Inoculate against error",
+    "section_field": "pitfall",
+    "group": 5,
+    "status": "stable",
+    "capacity": {
+      "misconceptionMaxWords": 20,
+      "correctionMaxWords": 80,
+      "examplesMax": 3,
+      "whyMaxWords": 60
+    },
+    "behaviour_modes": [
+      "static",
+      "hint-toggle"
+    ],
+    "print_fallback": "Static alert with correction visible"
+  },
+  "diagram-block": {
+    "id": "diagram-block",
+    "name": "DiagramBlock",
+    "purpose": "Makes spatial or relational structure visible.",
+    "cognitive_job": "See the structure",
+    "section_field": "diagram",
+    "group": 6,
+    "status": "stable",
+    "capacity": {
+      "calloutsMax": 6,
+      "captionMaxWords": 60
+    },
+    "behaviour_modes": [
+      "static",
+      "zoom",
+      "hint-toggle"
+    ],
+    "print_fallback": "Static SVG figure"
+  },
+  "diagram-compare": {
+    "id": "diagram-compare",
+    "name": "DiagramCompare",
+    "purpose": "Shows change by directly comparing two states.",
+    "cognitive_job": "Compare states",
+    "section_field": "diagram_compare",
+    "group": 6,
+    "status": "stable",
+    "capacity": {
+      "captionMaxWords": 60,
+      "labelsMaxWords": 6,
+      "detailListsOptional": "before_details, after_details"
+    },
+    "behaviour_modes": [
+      "compare"
+    ],
+    "print_fallback": "Before and after diagrams side by side"
+  },
+  "diagram-series": {
+    "id": "diagram-series",
+    "name": "DiagramSeries",
+    "purpose": "Shows a sequence of spatial states over time or steps.",
+    "cognitive_job": "Track staged change",
+    "section_field": "diagram_series",
+    "group": 6,
+    "status": "stable",
+    "capacity": {
+      "diagramsMax": 4,
+      "titleMaxWords": 10
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Stepped static figure strip"
+  },
+  "timeline-block": {
+    "id": "timeline-block",
+    "name": "TimelineBlock",
+    "purpose": "Turns chronology into a readable instructional spine.",
+    "cognitive_job": "Follow cause and sequence over time",
+    "section_field": "timeline",
+    "group": 6,
+    "status": "stable",
+    "capacity": {
+      "eventsMin": 3,
+      "eventsMax": 8,
+      "titleMaxWords": 10,
+      "summaryMaxWords": 50
+    },
+    "behaviour_modes": [
+      "static",
+      "timeline-scrubber"
+    ],
+    "print_fallback": "Vertical event list"
+  },
+  "simulation-block": {
+    "id": "simulation-block",
+    "name": "SimulationBlock",
+    "purpose": "Reserves an interactive discovery surface with a safe fallback.",
+    "cognitive_job": "Manipulate and discover",
+    "section_field": "simulation",
+    "group": 7,
+    "status": "beta",
+    "capacity": {
+      "onePerSection": true
+    },
+    "behaviour_modes": [
+      "static"
+    ],
+    "print_fallback": "Fallback diagram at midstate"
+  }
+}

@@ -114,6 +114,10 @@ export {
 	getTemplateFamilies,
 	validateAllTemplates,
 } from "./template-registry";
+export { LectioThemeSurface } from "./templates/LectioThemeSurface";
+export { ResolvedTemplatePreviewSurface } from "./templates/ResolvedTemplatePreviewSurface";
+export { TemplateRuntimeSurface } from "./templates/TemplateRuntimeSurface";
+export { TemplatePreviewSurface } from "./templates/TemplatePreviewSurface";
 export type {
 	TemplateContract,
 	TemplateDefinition,
