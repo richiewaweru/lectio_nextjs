@@ -32,6 +32,10 @@ describe("sidebar navigation", () => {
     );
 
     expect(screen.getByRole("navigation", { name: /primary navigation/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Introduction/i })).toHaveAttribute(
+      "href",
+      "/docs/introduction"
+    );
     expect(screen.getByRole("link", { name: /ComparisonGrid/i })).toHaveAttribute(
       "href",
       "/showcase#comparison-grid"

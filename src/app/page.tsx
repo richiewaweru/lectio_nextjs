@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpenText, Layers3, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpenText, FileText, Layers3, Sparkles } from "lucide-react";
 
 import { Badge } from "@/lib/components/ui/badge";
 import { Button } from "@/lib/components/ui/button";
@@ -49,21 +49,25 @@ export default function HomePage() {
                 components drive templates, and templates render lessons.
               </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button
                 asChild
                 size="lg"
                 className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
+                <Link href="/docs">
+                  Read the docs
+                  <FileText className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
                 <Link href="/showcase">
                   View component showcase
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link href="/templates">
-                  Open template gallery
-                </Link>
+                <Link href="/templates">Open template gallery</Link>
               </Button>
             </div>
           </div>
