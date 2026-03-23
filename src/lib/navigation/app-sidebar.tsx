@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Badge } from "@/lib/components/ui/badge";
+import { getDocsNavigation } from "@/lib/navigation/docs-navigation";
 import { getSidebarNavigation } from "@/lib/navigation/sidebar-navigation";
 
 interface AppSidebarProps {
@@ -9,6 +10,7 @@ interface AppSidebarProps {
 
 export function AppSidebar({ frameworkLabel }: AppSidebarProps) {
   const navigation = getSidebarNavigation();
+  const docsNav = getDocsNavigation();
 
   return (
     <aside className="hidden w-72 shrink-0 xl:sticky xl:top-3 xl:block xl:self-start">
@@ -35,6 +37,34 @@ export function AppSidebar({ frameworkLabel }: AppSidebarProps) {
             aria-label="Primary navigation"
             className="scrollbar-styled mt-6 flex-1 space-y-6 overflow-y-auto pr-1 text-sm"
           >
+            <div>
+              <p className="eyebrow">Documentation</p>
+              <ul className="mt-3 space-y-3">
+                {docsNav.map((group) => (
+                  <li key={group.eyebrow}>
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      {group.eyebrow}
+                    </p>
+                    <ul className="mt-2 space-y-1.5">
+                      {group.items.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className="block rounded-xl px-3 py-2 text-foreground/80 transition-colors hover:bg-primary/5 hover:text-primary"
+                          >
+                            <span className="font-medium">{item.label}</span>
+                            <span className="mt-1 block text-xs text-muted-foreground">
+                              {item.meta}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div>
               <p className="eyebrow">Components</p>
               <ul className="mt-3 space-y-1.5">
